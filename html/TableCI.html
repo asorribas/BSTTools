@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: TableCI</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for TableCI {BiostatTools}"><tr><td>TableCI {BiostatTools}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+TableCI
+</h2>
+
+<h3>Usage</h3>
+
+<pre>
+TableCI(x, y, method = "sisonglaz")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+##---- Should be DIRECTLY executable !! ----
+##-- ==&gt;  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
+
+## The function is currently defined as
+function (x, y, method = "sisonglaz")
+{
+    if (class(x) != "factor")
+        return(paste("Sorry, the first variable is not a factor. This function requires two factor variables"))
+    if (class(y) != "factor")
+        return(paste("Sorry, the second variable is not a factor. This function requires two factor variables"))
+    res &lt;- c()
+    df &lt;- table(x, y)
+    names &lt;- colnames(df)
+    nomscols &lt;- c()
+    for (i in 1:dim(df)[2]) nomscols &lt;- c(nomscols, rep(names[i],
+        dim(df)[1]))
+    names &lt;- rownames(df)
+    nomsrows &lt;- rep(names, dim(df)[2])
+    for (i in 1:dim(df)[2]) res &lt;- rbind(res, MultinomCI(df[,
+        i], method = method))
+    dd &lt;- data.frame(Cols = nomscols, Rows = nomsrows, res %&gt;%
+        round(3))
+    row.names(dd) &lt;- NULL
+    dd
+  }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiostatTools</em> version 0.1.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

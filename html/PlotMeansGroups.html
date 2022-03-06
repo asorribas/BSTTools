@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: PlotMeansGroups</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for PlotMeansGroups {BiostatTools}"><tr><td>PlotMeansGroups {BiostatTools}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+PlotMeansGroups
+</h2>
+
+<h3>Usage</h3>
+
+<pre>
+PlotMeansGroups(x, y, g, data)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>g</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+##---- Should be DIRECTLY executable !! ----
+##-- ==&gt;  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
+
+## The function is currently defined as
+function (x, y, g, data)
+{
+    group &lt;- enquo(y)
+    xvar &lt;- enquo(x)
+    fg &lt;- enquo(g)
+    res &lt;- data %&gt;% group_by(!!group, !!fg) %&gt;% summarise(m = mean(!!xvar),
+        lower = t.test(!!xvar)$conf.int[1], upper = t.test(!!xvar)$conf.int[2])
+    ggplot(res, aes(x = !!group, y = m, group = !!fg)) + geom_errorbar(aes(ymax = upper,
+        ymin = lower, color = !!fg), size = 1, width = 0.3, position = position_dodge(0.9)) +
+        geom_point(size = 4, shape = 21, color = "black", fill = "white",
+            position = position_dodge(0.9))
+  }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiostatTools</em> version 0.1.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

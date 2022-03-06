@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: PlotPropCI</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for PlotPropCI {BiostatTools}"><tr><td>PlotPropCI {BiostatTools}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+PlotPropCI
+</h2>
+
+<h3>Usage</h3>
+
+<pre>
+PlotPropCI(x, y, xlab = "", ylab = "", legend = "", method = "sisonglaz")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>legend</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+##---- Should be DIRECTLY executable !! ----
+##-- ==&gt;  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
+
+## The function is currently defined as
+function (x, y, xlab = "", ylab = "", legend = "", method = "sisonglaz")
+{
+    if (class(x) != "factor")
+        return(paste("Sorry, the first variable is not a factor. This function requires two factor variables"))
+    if (class(y) != "factor")
+        return(paste("Sorry, the second variable is not a factor. This function requires two factor variables"))
+    df &lt;- table(x, y)
+    res &lt;- TablePropCI(df, method)
+    ggplot(res, aes(x = Cols, fill = Rows, est)) + geom_bar(stat = "identity",
+        position = position_dodge()) + geom_errorbar(aes(ymin = lwr.ci,
+        ymax = upr.ci), position = position_dodge(0.9), size = 1,
+        color = "black", width = 0.1) + geom_point(aes(x = Cols,
+        fill = Rows), colour = "red", size = 3, position = position_dodge(0.9)) +
+        scale_fill_manual(values = c("grey", "orange", "brown",
+            "red")) + xlab(xlab) + ylab(ylab) + labs(fill = legend) +
+        ylim(0, 1)
+  }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiostatTools</em> version 0.1.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

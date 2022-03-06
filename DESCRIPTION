@@ -1,0 +1,16 @@
+Package: BiostatTools
+Type: Package
+Title: Functions for basic exploratory data analysis.
+Version: 0.1.2
+Author: Albert Sorribas
+Maintainer: <albert.sorribas@udl.cat>
+Depends: R (>= 3.1.0), tidyverse, compareGroups, UsingR, DescTools,
+        ggpubr,questionr,formattable,epitools,kableExtra, descr,
+        questionr
+Description: Obtain formated crosstables, bar plots with simultaneous confidence intervals,
+    and other useful tools for dealing with tables and means. The goal is to offer easy
+    tools for exploratory data analysis.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Built: R 3.6.1; ; 2020-10-11 17:11:11 UTC; windows

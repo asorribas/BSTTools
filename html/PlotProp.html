@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: PlotProp title</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for PlotProp {BiostatTools}"><tr><td>PlotProp {BiostatTools}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+PlotProp title
+</h2>
+
+<h3>Description</h3>
+
+<p>Print plots
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+PlotProp(x, y, xlab = "", ylab = "", legend = "", main = "",
+    method = "sisonglaz", stacked = F, percent = T,
+    colors = c("grey", "orange", "lightblue", "pink"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A factor variable in a data.frame.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>A factor variable in a data.frame. This will be used as groups and percentages of variable x will be computed for each level of y.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+
+<p>A character label for the x axis.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+
+<p>A character label for the y axis.
+</p>
+</td></tr>
+<tr valign="top"><td><code>legend</code></td>
+<td>
+
+<p>A character label for the variable y.
+</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+
+<p>A character label for the title othe plot.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>stacked</code></td>
+<td>
+
+<p>If TRUE, a stacked bar plot is obtaind. Default is FALSE.
+</p>
+</td></tr>
+<tr valign="top"><td><code>percent</code></td>
+<td>
+
+<p>If TRUE (default), percent values are printed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>colors</code></td>
+<td>
+
+<p>A vector with color names to be used in bars. Default is c(&quot;grey&quot;, &quot;orange&quot;, &quot;lightblue&quot;, &quot;pink&quot;)
+</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+birthwt %&gt;% with(PlotProp(factor(race),factor(ht)))
+birthwt %&gt;% with(PlotProp(factor(race),factor(ht)), stacked=T)
+birthwt %&gt;% with(PlotProp(factor(race),factor(ht)), stacked=T) + coord_flip()
+
+## The function is currently defined as
+function (x, y, xlab = "", ylab = "", legend = "", main = "",
+    method = "sisonglaz", stacked = F, percent = T, colors = c("grey",
+        "orange", "lightblue", "pink"))
+{
+    if (class(x) != "factor")
+        return(paste("Sorry, the first variable is not a factor. This function requires two factor variables"))
+    if (class(y) != "factor")
+        return(paste("Sorry, the second variable is not a factor. This function requires two factor variables"))
+    df &lt;- table(x, y)
+    res &lt;- TablePropCI(df, method)
+    if (percent &amp; stacked) {
+        p &lt;- geom_text(aes(label = paste(round(est * 100, 2),
+            "%")), stat = "identity", position = position_fill(vjust = 0.5))
+    }
+    else if (percent &amp; stacked == F) {
+        p &lt;- geom_text(aes(label = paste(est * 100, "%")), position = position_dodge(width = 0.9),
+            vjust = -0.25)
+    }
+    else {
+        p &lt;- NULL
+    }
+    if (stacked) {
+        ggplot(res, aes(x = Cols, fill = Rows, est)) + geom_bar(stat = "identity",
+            color = "black") + scale_fill_manual(values = colors) +
+            xlab(xlab) + ylab(ylab) + labs(fill = legend) + ylim(0,
+            1) + ggtitle(main) + p
+    }
+    else {
+        ggplot(res, aes(x = Cols, fill = Rows, est)) + geom_bar(stat = "identity",
+            position = position_dodge(), color = "black") + scale_fill_manual(values = colors) +
+            xlab(xlab) + ylab(ylab) + labs(fill = legend) + ylim(0,
+            1) + ggtitle(main) + p
+    }
+  }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiostatTools</em> version 0.1.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

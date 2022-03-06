@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: TableRR</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for TableRR {BiostatTools}"><tr><td>TableRR {BiostatTools}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+TableRR
+</h2>
+
+<h3>Description</h3>
+
+<p>Compute a risk ratio table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+TableRR(x, y)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A variable of exposed groups.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>A variable of events.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The risk ration is computed assuming a cohort study defined by groups in x.
+The risk is computed for the second level of y.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A formated risk ratio table
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+##---- Should be DIRECTLY executable !! ----
+##-- ==&gt;  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
+
+## The function is currently defined as
+function (x, y) 
+{
+    df &lt;- table(y, x)
+    res &lt;- riskratio(df)$measure %&gt;% round(2)
+    res %&gt;% kbl(caption = "Risk ratio") %&gt;% kable_styling(full_width = F, 
+        html_font = "Cambria")
+  }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiostatTools</em> version 0.1.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

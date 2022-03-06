@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: TableMeansCI</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for TableMeansCI {BiostatTools}"><tr><td>TableMeansCI {BiostatTools}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+TableMeansCI
+</h2>
+
+<h3>Usage</h3>
+
+<pre>
+TableMeansCI(x, y, data)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+##---- Should be DIRECTLY executable !! ----
+##-- ==&gt;  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
+
+## The function is currently defined as
+function (x, y, data)
+{
+    group &lt;- enquo(y)
+    xvar &lt;- enquo(x)
+    res &lt;- data %&gt;% group_by(!!group) %&gt;% summarise(mean = mean(!!xvar) %&gt;%
+        round(2), low = t.test(!!xvar)$conf.int[1] %&gt;% round(2),
+        upper = t.test(!!xvar)$conf.int[2] %&gt;% round(2))
+    res %&gt;% kbl(caption = "95% CI for means") %&gt;% kable_styling(full_width = F,
+        html_font = "Cambria")
+  }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiostatTools</em> version 0.1.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

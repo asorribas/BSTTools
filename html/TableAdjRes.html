@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: TableAdjRes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for TableAdjRes {BiostatTools}"><tr><td>TableAdjRes {BiostatTools}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+TableAdjRes
+</h2>
+
+<h3>Usage</h3>
+
+<pre>
+TableAdjRes(x, y, caption = "", full_width = T, count = T)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>caption</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>full_width</code></td>
+<td>
+
+
+</td></tr>
+<tr valign="top"><td><code>count</code></td>
+<td>
+
+
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+##---- Should be DIRECTLY executable !! ----
+##-- ==&gt;  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
+
+## The function is currently defined as
+function (x, y, caption = "", full_width = T, count = T)
+{
+    if (class(x) != "factor")
+        return(paste("Sorry, the first variable is not a factor. This function requires two factor variables"))
+    if (class(y) != "factor")
+        return(paste("Sorry, the second variable is not a factor. This function requires two factor variables"))
+    tab &lt;- table(x, y)
+    print(tab)
+    name &lt;- levels(x)
+    p1 &lt;- tab %&gt;% chisq.residuals(std = T)
+    p2 &lt;- tab %&gt;% prop.table(2) * 100
+    p2 &lt;- round(p2, 2)
+    if (count) {
+        res &lt;- c()
+        for (i in 1:dim(p1)[1]) {
+            r0 &lt;- c(name[i], "n", tab[i, ])
+            r1 &lt;- c("", "%", p2[i, ])
+            r2 &lt;- c("", "Adj.res", p1[i, ])
+            res &lt;- rbind(res, r0, r1, r2)
+            rownames(res) &lt;- NULL
+        }
+    }
+    else {
+        res &lt;- c()
+        for (i in 1:dim(p1)[1]) {
+            r1 &lt;- c(name[i], "%", p2[i, ])
+            r2 &lt;- c("", "Adj.res", p1[i, ])
+            res &lt;- rbind(res, r1, r2)
+            rownames(res) &lt;- NULL
+        }
+    }
+    res %&gt;% kbl(caption = caption) %&gt;% kable_styling(full_width = full_width,
+        html_font = "Cambria")
+  }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiostatTools</em> version 0.1.2 <a href="00Index.html">Index</a>]</div>
+</body></html>
